@@ -89,6 +89,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="u0k-wC-wg3"/>
                     <connections>
+                        <outlet property="filterButton" destination="FFV-o2-cxB" id="Pbz-ri-ETs"/>
                         <outlet property="imageView" destination="HL9-fs-cig" id="KG8-qs-Ehf"/>
                         <outlet property="intensity" destination="m07-fF-XuE" id="Ozc-a8-PJJ"/>
                     </connections>

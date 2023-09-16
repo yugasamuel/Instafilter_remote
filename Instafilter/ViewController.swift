@@ -11,6 +11,7 @@ import CoreImage
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var intensity: UISlider!
+    @IBOutlet var filterButton: UIButton!
     
     var context: CIContext!
     var currentFilter: CIFilter!
@@ -98,6 +99,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if let cgimg = context.createCGImage(currentFilter.outputImage!, from: currentFilter.outputImage!.extent) {
             let processedImage = UIImage(cgImage: cgimg)
             self.imageView.image = processedImage
+            self.filterButton.setTitle(currentFilter.name, for: .normal)
         }
     }
     
