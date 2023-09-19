@@ -18,7 +18,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var context: CIContext!
     var currentFilter: CIFilter!
     
-    var currentImage: UIImage!
+    var currentImage: UIImage! {
+        didSet {
+            self.imageView.alpha = 0
+            UIView.animate(withDuration: 1, delay: 0, animations: {
+                self.imageView.alpha = 1
+            })
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,10 +113,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if inputKeys.contains(kCIInputScaleKey) { currentFilter.setValue(scale.value * 10, forKey: kCIInputScaleKey) }
         if inputKeys.contains(kCIInputCenterKey) { currentFilter.setValue(CIVector(x: currentImage.size.width / 2, y: currentImage.size.height / 2), forKey: kCIInputCenterKey) }
 
-        if let cgimg = context.createCGImage(currentFilter.outputImage!, from: currentFilter.outputImage!.extent) {
-            let processedImage = UIImage(cgImage: cgimg)
-            self.imageView.image = processedImage
-            self.filterButton.setTitle(currentFilter.name, for: .normal)
+        if let outputImage = currentFilter.outputImage {
+            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+                let processedImage = UIImage(cgImage: cgimg)
+                self.imageView.image = processedImage
+                self.filterButton.setTitle(currentFilter.name, for: .normal)
+            }
         }
     }
     
@@ -125,7 +134,5 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             present(ac, animated: true)
         }
     }
-    
-    
 }
 
